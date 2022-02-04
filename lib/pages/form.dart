@@ -1,7 +1,7 @@
-import 'dart:developer';
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import "package:http/http.dart" as http;
+import "package:mcc_app/models/database.dart";
+import 'package:mcc_app/models/product.dart';
 
 class FormWid extends StatefulWidget {
   const FormWid({Key? key}) : super(key: key);
@@ -11,26 +11,24 @@ class FormWid extends StatefulWidget {
 }
 
 class _FormState extends State<FormWid> {
-  final field1Text = TextEditingController();
-  final field2Text = TextEditingController();
-
+  final name = TextEditingController();
+  final joke = TextEditingController();
   @override
   void initState(){
     super.initState();
   }
 
-  // Future<void> sendData(name,age) async {
-  //   const url = "API_URL";
-  //   var uri = Uri.parse(url);
-  //   var res = await http.post(uri,body:{
-  //     name,age
-  //   });
-  //   log(res.toString());
-  // }
+  insertData() async {
+    Product prod = Product(1, name.text, joke.text);
+    var res = await SQLiteDbProvider.db.insert(prod);
+    return res;
+  }
 
   void onPressed(){
     SystemChannels.textInput.invokeMethod("TextInput.hide");
-    log(field2Text.text.toString() + " " +field1Text.text.toString());
+    insertData();
+    name.clear();
+    joke.clear();
   }
 
   @override
@@ -72,9 +70,14 @@ class _FormState extends State<FormWid> {
             child:Center(
               child:Column(
                 children: [
-                  Column(children:[const Text("Name",textScaleFactor: 2,),formField1(field1Text)]),
-                  const SizedBox(height: 10,),
-                  Column(children: [const Text("Age",textScaleFactor: 2,),formField1(field2Text)]),
+                  const Text("JOKE",textScaleFactor: 4,),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  Column(children:[const Text("Name",textScaleFactor: 2,),formField1(name)]),
+                  const SizedBox(height: 15,),
+                  Column(children: [const Text("Joke",textScaleFactor: 2,),formField1(joke)]),
+                  const SizedBox(height: 5,),
                   ElevatedButton(
                     onPressed:()=>{onPressed()},
                     child:const Text("Submit"),
@@ -82,7 +85,7 @@ class _FormState extends State<FormWid> {
                 ],
               ),
             ),
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 80),
           ),
         ),
     );

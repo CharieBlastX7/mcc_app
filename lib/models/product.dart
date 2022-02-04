@@ -1,15 +1,3 @@
-import "dart:convert";
-
-Product prodFromJson(String str){
-  final jsonData = json.decode(str);
-  return Product.fromMap(jsonData);
-}
-
-String prodToJson(Product data){
-  final dyn = data.toMap();
-  return json.encode(dyn);
-}
-
 class Product {
   late final int id;
   late final String first_name;
