@@ -1,6 +1,7 @@
 import "package:mcc_app/pages/home_screen.dart";
 import "package:mcc_app/pages/form.dart";
 import "package:mcc_app/pages/human_face.dart";
+import "package:mcc_app/pages/gps.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
@@ -16,6 +17,7 @@ class _HomeState extends State<Home> {
     const HomeList(),
     const FormWid(),
     const HumanFace(),
+    const GetLocation(),
   ];
   int _currentIndex = 0;
 
@@ -50,7 +52,12 @@ class _HomeState extends State<Home> {
              icon: Icon(Icons.face),
              label: "Face",
              backgroundColor: Colors.blue,
-           )
+           ),
+           BottomNavigationBarItem(
+               icon: Icon(Icons.add_location),
+               backgroundColor: Colors.blue,
+               label: "Location"
+           ),
          ],
          onTap: onTapped,
        ),
